@@ -1,83 +1,940 @@
 <!DOCTYPE html>
 <html lang="sk">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Itz_St0rmX | Gaming</title>
+<title>ITZ✦ST0RMX | Gaming & SušenkaSMP</title>
 
-    <meta name="description"
-          content="Itz_St0rmX – Geometry Dash, Minecraft a SušenkaSMP.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="style.css">
+<style>
+:root{
+    --bg:#02040a;
+    --panel:#080d18;
+    --blue:#4da3ff;
+    --cyan:#22d3ee;
+    --purple:#8b5cf6;
+    --green:#4ade80;
+    --red:#ff5577;
+    --gold:#ffd166;
+    --white:#f4f7ff;
+    --muted:#8791aa;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:var(--bg);
+    color:var(--white);
+    font-family:"Sora",sans-serif;
+    overflow-x:hidden;
+}
+
+/* BACKGROUND */
+
+.background{
+    position:fixed;
+    inset:0;
+    overflow:hidden;
+    z-index:-10;
+    background:
+        radial-gradient(
+            circle at 50% -10%,
+            #17295b 0,
+            #07101e 35%,
+            #02040a 75%
+        );
+}
+
+.blob{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(100px);
+    opacity:.28;
+    animation:blobMove 20s ease-in-out infinite alternate;
+}
+
+.blob1{
+    width:550px;
+    height:550px;
+    background:#2563eb;
+    left:-200px;
+    top:-200px;
+}
+
+.blob2{
+    width:500px;
+    height:500px;
+    background:#7c3aed;
+    right:-180px;
+    top:20%;
+    animation-delay:-7s;
+}
+
+.blob3{
+    width:600px;
+    height:600px;
+    background:#0891b2;
+    left:25%;
+    bottom:-450px;
+    animation-delay:-13s;
+}
+
+@keyframes blobMove{
+    0%{
+        transform:translate(0,0) scale(1);
+    }
+
+    50%{
+        transform:translate(100px,-80px) scale(1.15);
+    }
+
+    100%{
+        transform:translate(-80px,100px) scale(.9);
+    }
+}
+
+.grid{
+    position:fixed;
+    inset:0;
+    z-index:-8;
+
+    background-image:
+        linear-gradient(
+            rgba(100,160,255,.035) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(100,160,255,.035) 1px,
+            transparent 1px
+        );
+
+    background-size:50px 50px;
+
+    mask-image:
+        radial-gradient(
+            ellipse at center,
+            black 20%,
+            transparent 80%
+        );
+}
+
+#particles{
+    position:fixed;
+    inset:0;
+    z-index:-5;
+    pointer-events:none;
+}
+
+/* NAV */
+
+nav{
+    position:fixed;
+    top:18px;
+    left:50%;
+    transform:translateX(-50%);
+
+    width:min(1100px,92%);
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding:15px 22px;
+
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:17px;
+
+    background:rgba(3,7,17,.68);
+    backdrop-filter:blur(20px);
+
+    z-index:100;
+
+    box-shadow:
+        0 15px 50px rgba(0,0,0,.35);
+}
+
+.logo{
+    font-weight:800;
+    letter-spacing:2px;
+    font-size:15px;
+}
+
+.logo span{
+    color:var(--blue);
+}
+
+.logo .star{
+    color:var(--purple);
+    text-shadow:
+        0 0 10px var(--purple);
+    animation:starPulse 2s infinite;
+}
+
+@keyframes starPulse{
+    0%,100%{
+        transform:scale(1);
+    }
+
+    50%{
+        transform:scale(1.3) rotate(15deg);
+    }
+}
+
+.navlinks{
+    display:flex;
+    gap:28px;
+    list-style:none;
+}
+
+.navlinks a{
+    color:var(--muted);
+    text-decoration:none;
+    font-family:Rajdhani,sans-serif;
+    font-weight:700;
+    transition:.25s;
+}
+
+.navlinks a:hover{
+    color:white;
+}
+
+/* HERO */
+
+.hero{
+    min-height:100vh;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    text-align:center;
+
+    padding:130px 20px 80px;
+}
+
+.hero-content{
+    max-width:1000px;
+    animation:heroAppear 1s ease;
+}
+
+@keyframes heroAppear{
+    from{
+        opacity:0;
+        transform:translateY(35px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.badge{
+    display:inline-block;
+
+    padding:8px 16px;
+
+    border-radius:999px;
+
+    border:1px solid rgba(77,163,255,.25);
+
+    background:rgba(77,163,255,.07);
+
+    color:#9bcaff;
+
+    font-family:Rajdhani,sans-serif;
+    font-size:12px;
+    font-weight:700;
+
+    letter-spacing:3px;
+
+    margin-bottom:25px;
+}
+
+.hero h1{
+    font-size:clamp(55px,11vw,125px);
+    line-height:.9;
+
+    letter-spacing:-7px;
+
+    font-weight:800;
+
+    background:
+        linear-gradient(
+            120deg,
+            white,
+            #9ac9ff,
+            #9d7aff,
+            white
+        );
+
+    background-size:250% auto;
+
+    -webkit-background-clip:text;
+    background-clip:text;
+
+    color:transparent;
+
+    animation:gradient 6s linear infinite;
+
+    filter:
+        drop-shadow(
+            0 0 25px rgba(77,163,255,.15)
+        );
+}
+
+@keyframes gradient{
+    to{
+        background-position:250% center;
+    }
+}
+
+.hero h1 span{
+    color:transparent;
+}
+
+.subtitle{
+    margin-top:30px;
+    font-size:clamp(20px,3vw,32px);
+    font-weight:700;
+}
+
+.subtitle span{
+    color:var(--cyan);
+}
+
+.description{
+    max-width:650px;
+    margin:20px auto;
+
+    color:var(--muted);
+
+    line-height:1.8;
+}
+
+.description strong{
+    color:#dfe9ff;
+}
+
+.buttons{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:14px;
+
+    margin-top:35px;
+}
+
+.button{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+
+    padding:14px 24px;
+
+    border-radius:10px;
+
+    text-decoration:none;
+
+    font-family:Rajdhani,sans-serif;
+    font-weight:700;
+    font-size:17px;
+
+    transition:.25s;
+}
+
+.primary{
+    color:white;
+
+    background:
+        linear-gradient(
+            135deg,
+            #2563eb,
+            #7c3aed
+        );
+
+    box-shadow:
+        0 10px 35px rgba(37,99,235,.25);
+}
+
+.primary:hover{
+    transform:translateY(-4px);
+    box-shadow:
+        0 18px 45px rgba(37,99,235,.4);
+}
+
+.secondary{
+    color:white;
+
+    background:rgba(255,255,255,.04);
+
+    border:1px solid rgba(255,255,255,.1);
+}
+
+.secondary:hover{
+    border-color:var(--blue);
+    transform:translateY(-4px);
+}
+
+/* SECTIONS */
+
+.content{
+    width:min(1100px,90%);
+    margin:auto;
+    padding:120px 0;
+}
+
+.label{
+    color:var(--blue);
+
+    font-family:Rajdhani,sans-serif;
+    font-weight:700;
+
+    letter-spacing:3px;
+
+    font-size:13px;
+
+    margin-bottom:12px;
+}
+
+.section-title{
+    font-size:clamp(35px,5vw,60px);
+    margin-bottom:45px;
+}
+
+.section-title span{
+    color:var(--blue);
+}
+
+/* ABOUT */
+
+.about{
+    padding:40px;
+    border-radius:22px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(20,30,65,.75),
+            rgba(6,10,22,.75)
+        );
+
+    border:1px solid rgba(255,255,255,.08);
+
+    backdrop-filter:blur(20px);
+
+    transition:.3s;
+}
+
+.about:hover{
+    transform:translateY(-5px);
+    border-color:rgba(77,163,255,.3);
+}
+
+.about p{
+    line-height:1.9;
+    color:#d7def2;
+    margin-bottom:17px;
+}
+
+.about strong{
+    color:var(--blue);
+}
+
+.tags{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-top:30px;
+}
+
+.tag{
+    padding:9px 15px;
+
+    border-radius:999px;
+
+    background:rgba(255,255,255,.04);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    color:#bac7e8;
+
+    font-family:Rajdhani,sans-serif;
+    font-weight:700;
+}
+
+/* GAMES */
+
+.games{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:20px;
+}
+
+.game{
+    padding:35px;
+
+    border-radius:20px;
+
+    background:rgba(8,13,29,.7);
+
+    border:1px solid rgba(255,255,255,.07);
+
+    backdrop-filter:blur(15px);
+
+    transition:.3s;
+}
+
+.game:hover{
+    transform:translateY(-8px);
+    border-color:rgba(77,163,255,.3);
+}
+
+.icon{
+    width:64px;
+    height:64px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:16px;
+
+    font-family:Rajdhani,sans-serif;
+    font-weight:800;
+    font-size:20px;
+
+    margin-bottom:20px;
+}
+
+.gd{
+    color:#a78bfa;
+    background:rgba(139,92,246,.08);
+    border:1px solid rgba(139,92,246,.3);
+}
+
+.mc{
+    color:#4ade80;
+    background:rgba(74,222,128,.07);
+    border:1px solid rgba(74,222,128,.25);
+}
+
+.game h3{
+    font-size:27px;
+    margin-bottom:12px;
+}
+
+.game p{
+    color:var(--muted);
+    line-height:1.7;
+    margin-bottom:22px;
+}
+
+.game a{
+    color:var(--blue);
+    text-decoration:none;
+    font-family:Rajdhani,sans-serif;
+    font-weight:700;
+}
+
+/* SERVER */
+
+.server{
+    text-align:center;
+
+    padding:70px 30px;
+
+    border-radius:26px;
+
+    background:
+        radial-gradient(
+            circle at 50% 0%,
+            rgba(34,211,238,.12),
+            transparent 60%
+        ),
+        rgba(7,12,28,.78);
+
+    border:1px solid rgba(34,211,238,.15);
+
+    backdrop-filter:blur(20px);
+
+    position:relative;
+
+    overflow:hidden;
+}
+
+.server h2{
+    font-size:clamp(42px,7vw,82px);
+
+    background:
+        linear-gradient(
+            90deg,
+            white,
+            var(--cyan),
+            var(--blue),
+            white
+        );
+
+    background-size:250% auto;
+
+    -webkit-background-clip:text;
+    background-clip:text;
+
+    color:transparent;
+
+    animation:gradient 5s linear infinite;
+
+    margin:15px 0;
+}
+
+.server p{
+    color:var(--muted);
+
+    max-width:620px;
+
+    margin:0 auto 30px;
+
+    line-height:1.8;
+}
+
+.ip{
+    display:inline-flex;
+
+    align-items:center;
+    gap:15px;
+
+    padding:14px 18px;
+
+    background:#010308;
+
+    border:1px solid rgba(34,211,238,.25);
+
+    border-radius:10px;
+
+    margin-bottom:30px;
+}
+
+.ip code{
+    color:#67e8f9;
+}
+
+.copy{
+    border:0;
+    background:none;
+    color:#67e8f9;
+    cursor:pointer;
+}
+
+/* TEAM */
+
+.team{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+}
+
+.member{
+    padding:30px;
+
+    border-radius:20px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(12,19,39,.8),
+            rgba(5,9,20,.8)
+        );
+
+    border:1px solid rgba(255,255,255,.08);
+
+    transition:.3s;
+
+    position:relative;
+
+    overflow:hidden;
+}
+
+.member:hover{
+    transform:translateY(-8px);
+    border-color:rgba(77,163,255,.35);
+}
+
+.member::before{
+    content:"";
+
+    position:absolute;
+
+    width:160px;
+    height:160px;
+
+    right:-80px;
+    top:-80px;
+
+    border-radius:50%;
+
+    background:var(--blue);
+
+    filter:blur(70px);
+
+    opacity:.12;
+}
+
+.avatar{
+    width:70px;
+    height:70px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:18px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #172554,
+            #111827
+        );
+
+    border:1px solid rgba(255,255,255,.1);
+
+    font-weight:800;
+    font-size:22px;
+
+    margin-bottom:20px;
+}
+
+.member h3{
+    font-size:21px;
+    margin-bottom:7px;
+}
+
+.role{
+    display:inline-block;
+
+    padding:5px 10px;
+
+    border-radius:6px;
+
+    font-family:Rajdhani,sans-serif;
+
+    font-size:12px;
+    font-weight:800;
+
+    letter-spacing:1px;
+
+    margin-bottom:18px;
+}
+
+.manager{
+    color:#60a5fa;
+    background:rgba(37,99,235,.1);
+    border:1px solid rgba(37,99,235,.2);
+}
+
+.owner{
+    color:#fbbf24;
+    background:rgba(251,191,36,.08);
+    border:1px solid rgba(251,191,36,.2);
+}
+
+.member p{
+    color:var(--muted);
+    font-size:14px;
+    line-height:1.7;
+    margin-bottom:20px;
+}
+
+.member a{
+    color:var(--blue);
+    text-decoration:none;
+    font-family:Rajdhani,sans-serif;
+    font-weight:700;
+}
+
+/* CONTACT */
+
+.contact{
+    text-align:center;
+}
+
+.contact p{
+    max-width:600px;
+    margin:0 auto 30px;
+
+    color:var(--muted);
+
+    line-height:1.8;
+}
+
+/* FOOTER */
+
+footer{
+    text-align:center;
+
+    padding:30px;
+
+    border-top:1px solid rgba(255,255,255,.06);
+
+    color:var(--muted);
+
+    font-family:Rajdhani,sans-serif;
+}
+
+footer span{
+    color:var(--blue);
+}
+
+/* MOBILE */
+
+@media(max-width:750px){
+
+    .navlinks{
+        display:none;
+    }
+
+    .hero h1{
+        font-size:clamp(45px,14vw,80px);
+        letter-spacing:-4px;
+    }
+
+    .games{
+        grid-template-columns:1fr;
+    }
+
+    .team{
+        grid-template-columns:1fr;
+    }
+
+    .about{
+        padding:28px;
+    }
+
+    .server{
+        padding:50px 20px;
+    }
+
+    .ip code{
+        font-size:13px;
+    }
+}
+</style>
 </head>
 
 <body>
 
-<header class="navbar">
-    <div class="logo">Itz_<span>St0rmX</span></div>
+<!-- BACKGROUND -->
 
-    <nav>
-        <a href="#home">Domov</a>
-        <a href="#about">O mne</a>
-        <a href="#games">Hry</a>
-        <a href="#smp">SušenkaSMP</a>
-        <a href="#contact">Kontakt</a>
-    </nav>
+<div class="background">
+    <div class="blob blob1"></div>
+    <div class="blob blob2"></div>
+    <div class="blob blob3"></div>
+</div>
 
-    <a class="discord-btn"
-       href="https://discord.com/users/1402158134331441284"
-       target="_blank">
-        Discord
-    </a>
-</header>
+<div class="grid"></div>
+
+<canvas id="particles"></canvas>
 
 
-<section id="home" class="hero">
+<!-- NAV -->
+
+<nav>
+
+    <div class="logo">
+        ITZ
+        <span class="star">✦</span>
+        <span>ST0RMX</span>
+    </div>
+
+    <ul class="navlinks">
+
+        <li>
+            <a href="#about">O mne</a>
+        </li>
+
+        <li>
+            <a href="#games">Hry</a>
+        </li>
+
+        <li>
+            <a href="#smp">SušenkaSMP</a>
+        </li>
+
+        <li>
+            <a href="#team">Tím</a>
+        </li>
+
+        <li>
+            <a
+                href="https://discord.com/users/1402158134331441284"
+                target="_blank"
+            >
+                Discord
+            </a>
+        </li>
+
+    </ul>
+
+</nav>
+
+
+<!-- HERO -->
+
+<section class="hero">
 
     <div class="hero-content">
 
-        <p class="tag">GAMER • CREATOR • DEVELOPER</p>
+        <div class="badge">
+            GAMING • GEOMETRY DASH • MINECRAFT
+        </div>
 
         <h1>
-            ITZ_<span>ST0RMX</span>
+            ITZ✦ST0RMX
         </h1>
 
+        <div class="subtitle">
+            Geometry Dash
+            <span>×</span>
+            Minecraft
+        </div>
+
         <p class="description">
-            Geometry Dash hráč s viac ako 100 demonmi,
-            Minecraft hráč a tvorca projektu SušenkaSMP.
+
+            Profesionálny Geometry Dash hráč
+            s viac ako <strong>100 demonmi</strong>,
+            Minecraft hráč a
+            <strong>HL. Manager SušenkaSMP</strong>.
+
         </p>
 
         <div class="buttons">
 
-            <a href="#games" class="button main">
-                Moje hry
+            <a
+                href="#smp"
+                class="button primary"
+            >
+                ◆ SušenkaSMP
             </a>
 
-            <a href="https://youtube.com/@itz_st0rmx199"
-               target="_blank"
-               class="button">
-                YouTube
+            <a
+                href="https://youtube.com/@itz_st0rmx199"
+                target="_blank"
+                class="button secondary"
+            >
+                ◆ YouTube
             </a>
-
-        </div>
-
-        <div class="stats">
-
-            <div>
-                <strong>100+</strong>
-                <span>DEMONOV</span>
-            </div>
-
-            <div>
-                <strong>2</strong>
-                <span>HLAVNÉ HRY</span>
-            </div>
-
-            <div>
-                <strong>1</strong>
-                <span>MC SERVER</span>
-            </div>
 
         </div>
 
@@ -86,45 +943,58 @@
 </section>
 
 
-<section id="about" class="section">
+<!-- ABOUT -->
 
-    <p class="section-label">// 01 O MNE</p>
+<section
+    class="content"
+    id="about"
+>
+
+    <div class="label">
+        01 / O MNE
+    </div>
+
+    <h2 class="section-title">
+        Kto som<span>?</span>
+    </h2>
 
     <div class="about">
 
-        <div>
-            <h2>
-                Hráč.<br>
-                <span>Tvorca.</span>
-            </h2>
-        </div>
+        <p>
+            Som <strong>ITZ✦ST0RMX</strong>,
+            gamer a tvorca herných projektov.
+        </p>
 
-        <div class="text">
+        <p>
+            V Geometry Dash mám na konte
+            viac ako <strong>100 demonov</strong>
+            a môj GD profil je
+            <strong>Zyr0x</strong>.
+        </p>
 
-            <p>
-                Som <b>Itz_St0rmX</b>.
-                V Geometry Dash mám na konte viac ako
-                <b>100 demonov</b> a Minecraft patrí medzi
-                moje hlavné hry.
-            </p>
+        <p>
+            V Minecrafte sa venujem hlavne
+            serverom a spolu s tímom pracujem
+            na projekte
+            <strong>SušenkaSMP</strong>.
+        </p>
 
-            <p>
-                Okrem hrania vytváram a rozvíjam vlastný
-                Minecraft projekt <b>SušenkaSMP</b>.
-            </p>
+        <div class="tags">
 
-            <div class="links">
+            <div class="tag">
+                ◆ 100+ GD DEMONS
+            </div>
 
-                <a href="https://discord.com/users/1402158134331441284"
-                   target="_blank">
-                    Discord profil →
-                </a>
+            <div class="tag">
+                ◆ MINECRAFT
+            </div>
 
-                <a href="https://youtube.com/@itz_st0rmx199"
-                   target="_blank">
-                    YouTube →
-                </a>
+            <div class="tag">
+                ◆ SERVER MANAGEMENT
+            </div>
 
+            <div class="tag">
+                ◆ CONTENT
             </div>
 
         </div>
@@ -134,57 +1004,70 @@
 </section>
 
 
-<section id="games" class="section">
+<!-- GAMES -->
 
-    <p class="section-label">// 02 HRY</p>
+<section
+    class="content"
+    id="games"
+>
+
+    <div class="label">
+        02 / GAMES
+    </div>
 
     <h2 class="section-title">
-        MOJE <span>HRY</span>
+        Moje <span>hry</span>
     </h2>
 
-    <div class="cards">
+    <div class="games">
 
-        <div class="card">
+        <div class="game">
 
-            <div class="number">01</div>
-
-            <div class="game-icon gd">
-                ◈
+            <div class="icon gd">
+                GD
             </div>
 
-            <h3>GEOMETRY DASH</h3>
+            <h3>
+                Geometry Dash
+            </h3>
 
             <p>
-                Viac ako <b>100 demonov</b>.
-                Môj Geometry Dash profil je
-                <b>Zyr0x</b>.
+                Viac ako
+                <strong>100 demonov</strong>.
+                Môj GD profil:
+                <strong>Zyr0x</strong>.
             </p>
 
-            <a href="https://www.google.com/search?q=Geometry+Dash+Zyr0x"
-               target="_blank">
-                Profil Zyr0x →
+            <a
+                href="https://www.google.com/search?q=Geometry+Dash+Zyr0x"
+                target="_blank"
+            >
+                Zobraziť profil →
             </a>
 
         </div>
 
 
-        <div class="card">
+        <div class="game">
 
-            <div class="number">02</div>
-
-            <div class="game-icon mc">
-                ⬡
+            <div class="icon mc">
+                MC
             </div>
 
-            <h3>MINECRAFT</h3>
+            <h3>
+                Minecraft
+            </h3>
 
             <p>
-                Minecraft hráč a tvorca
-                Minecraft servera <b>SušenkaSMP</b>.
+                Minecraft hráč a
+                HL. Manager projektu
+                <strong>SušenkaSMP</strong>.
             </p>
 
-            <a href="https://sk.namemc.com/skin/0d542c4f92e65a24"
-               target="_blank">
+            <a
+                href="https://sk.namemc.com/skin/0d542c4f92e65a24"
+                target="_blank"
+            >
                 Minecraft profil →
             </a>
 
@@ -195,40 +1078,62 @@
 </section>
 
 
-<section id="smp" class="section">
+<!-- SUSENKA SMP -->
 
-    <p class="section-label">// 03 MINECRAFT SERVER</p>
+<section
+    class="content"
+    id="smp"
+>
 
-    <div class="smp">
+    <div class="label">
+        03 / MINECRAFT PROJECT
+    </div>
 
-        <p class="tag">MINECRAFT SERVER</p>
+    <div class="server">
+
+        <div class="icon mc" style="margin:0 auto 20px;">
+            S
+        </div>
 
         <h2>
-            SUŠENKA<span>SMP</span>
+            SUŠENKA SMP
         </h2>
 
         <p>
-            Pripoj sa na náš Minecraft server
-            a hraj s komunitou.
+
+            Spoločný Minecraft projekt,
+            na ktorom spolupracuje náš tím.
+
+            Server management, vývoj,
+            svet a ďalšie systémy
+            tvoríme spoločne.
+
         </p>
 
-        <div class="server-ip">
+        <div class="ip">
 
-            <small>SERVER IP</small>
-
-            <button id="copyIP">
+            <code>
                 susenkasmp.ultramc.co
-                <span>⧉</span>
+            </code>
+
+            <button
+                class="copy"
+                onclick="copyIP()"
+                title="Kopírovať IP"
+            >
+                ◆
             </button>
 
         </div>
 
-        <a class="button main"
-           href="https://discord.gg/JHN3JJv8DP"
-           target="_blank">
+        <br>
 
-            SušenkaSMP Discord
-
+        <a
+            href="https://discord.gg/JHN3JJv8DP"
+            target="_blank"
+            class="button primary"
+        >
+            ◆ SušenkaSMP Discord
         </a>
 
     </div>
@@ -236,75 +1141,328 @@
 </section>
 
 
-<section id="contact" class="section">
+<!-- TEAM -->
 
-    <p class="section-label">// 04 KONTAKT</p>
+<section
+    class="content"
+    id="team"
+>
 
-    <h2>
-        BUĎME <span>V KONTAKTE</span>
+    <div class="label">
+        04 / SUSENKASMP TEAM
+    </div>
+
+    <h2 class="section-title">
+        Tím <span>projektu</span>
     </h2>
 
-    <div class="contact">
-
-        <a href="https://discord.com/users/1402158134331441284"
-           target="_blank">
-
-            <strong>Discord profil</strong>
-
-            <span>
-                Itz_St0rmX →
-            </span>
-
-        </a>
+    <div class="team">
 
 
-        <a href="https://discord.gg/JHN3JJv8DP"
-           target="_blank">
+        <!-- ST0RMX -->
 
-            <strong>SušenkaSMP Discord</strong>
+        <div class="member">
 
-            <span>
-                Pripojiť sa →
-            </span>
+            <div class="avatar">
+                SX
+            </div>
 
-        </a>
+            <h3>
+                ITZ✦ST0RMX
+            </h3>
+
+            <div class="role manager">
+                HL. MANAGER
+            </div>
+
+            <p>
+                Hlavný manager projektu.
+                Riadenie servera,
+                organizácia a spolupráca
+                na vývoji SušenkaSMP.
+            </p>
+
+            <a
+                href="https://discord.com/users/1402158134331441284"
+                target="_blank"
+            >
+                Discord profil →
+            </a>
+
+        </div>
 
 
-        <a href="https://youtube.com/@itz_st0rmx199"
-           target="_blank">
+        <!-- ERIK -->
 
-            <strong>YouTube</strong>
+        <div class="member">
 
-            <span>
-                @itz_st0rmx199 →
-            </span>
+            <div class="avatar">
+                E
+            </div>
 
-        </a>
+            <h3>
+                Erikhrajehry133
+            </h3>
+
+            <div class="role manager">
+                MANAGER
+            </div>
+
+            <p>
+                Manager projektu.
+                Spolupracuje na väčšine
+                vecí a aktívne pomáha
+                s vývojom a fungovaním
+                SušenkaSMP.
+            </p>
+
+            <a
+                href="https://discord.com/users/1461715108408459496"
+                target="_blank"
+            >
+                Discord profil →
+            </a>
+
+        </div>
+
+
+        <!-- COOKIE -->
+
+        <div class="member">
+
+            <div class="avatar">
+                C
+            </div>
+
+            <h3>
+                cookie448
+            </h3>
+
+            <div class="role owner">
+                OWNER
+            </div>
+
+            <p>
+                Owner projektu
+                SušenkaSMP a vlastník
+                samotného projektu.
+            </p>
+
+            <a
+                href="https://discord.com/users/1358045197476565012"
+                target="_blank"
+            >
+                Discord profil →
+            </a>
+
+        </div>
 
     </div>
 
 </section>
 
+
+<!-- CONTACT -->
+
+<section
+    class="content contact"
+    id="contact"
+>
+
+    <div class="label">
+        05 / CONTACT
+    </div>
+
+    <h2 class="section-title">
+        Nájdeme sa na <span>Discorde</span>
+    </h2>
+
+    <p>
+        Ak chceš pokecať, zahrať Minecraft,
+        pripojiť sa na SušenkaSMP alebo
+        sa dozvedieť viac o projekte,
+        môžeš ma kontaktovať na Discorde.
+    </p>
+
+    <a
+        href="https://discord.com/users/1402158134331441284"
+        target="_blank"
+        class="button primary"
+    >
+        ◆ Môj Discord
+    </a>
+
+</section>
+
+
+<!-- FOOTER -->
 
 <footer>
 
-    <span>
-        ITZ_ST0RMX © 2026
-    </span>
+    ITZ✦ST0RMX © 2026
 
-    <span>
-        GAMING • MINECRAFT • GEOMETRY DASH
-    </span>
+    <span> • </span>
+
+    SušenkaSMP
 
 </footer>
 
 
-<div id="toast">
-    IP skopírovaná!
-</div>
+<script>
+
+/* PARTICLES */
+
+const canvas =
+    document.getElementById("particles");
+
+const ctx =
+    canvas.getContext("2d");
+
+let particles=[];
 
 
-<script src="script.js"></script>
+function resize(){
+
+    canvas.width=
+        window.innerWidth;
+
+    canvas.height=
+        window.innerHeight;
+}
+
+resize();
+
+window.addEventListener(
+    "resize",
+    resize
+);
+
+
+function createParticle(){
+
+    return{
+
+        x:
+            Math.random()*
+            canvas.width,
+
+        y:
+            Math.random()*
+            canvas.height,
+
+        size:
+            Math.random()*2+.4,
+
+        speed:
+            Math.random()*.45+.1,
+
+        alpha:
+            Math.random()*.6+.1,
+
+        drift:
+            (Math.random()-.5)*.2
+    };
+}
+
+
+for(
+    let i=0;
+    i<120;
+    i++
+){
+
+    particles.push(
+        createParticle()
+    );
+}
+
+
+function animate(){
+
+    ctx.clearRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
+
+    particles.forEach(p=>{
+
+        p.y-=p.speed;
+        p.x+=p.drift;
+
+
+        if(
+            p.y < -10
+        ){
+
+            p.y=
+                canvas.height+10;
+
+            p.x=
+                Math.random()*
+                canvas.width;
+        }
+
+
+        ctx.beginPath();
+
+        ctx.arc(
+            p.x,
+            p.y,
+            p.size,
+            0,
+            Math.PI*2
+        );
+
+        ctx.fillStyle=
+            `rgba(90,180,255,${p.alpha})`;
+
+        ctx.shadowBlur=8;
+
+        ctx.shadowColor=
+            "#4da3ff";
+
+        ctx.fill();
+
+    });
+
+
+    requestAnimationFrame(
+        animate
+    );
+}
+
+animate();
+
+
+/* COPY IP */
+
+function copyIP(){
+
+    navigator.clipboard
+        .writeText(
+            "susenkasmp.ultramc.co"
+        )
+        .then(()=>{
+
+            const btn=
+                document.querySelector(".copy");
+
+            btn.textContent="✓";
+
+            setTimeout(()=>{
+
+                btn.textContent="◆";
+
+            },1500);
+
+        });
+
+}
+
+</script>
 
 </body>
 </html>

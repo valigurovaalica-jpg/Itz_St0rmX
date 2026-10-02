@@ -1,2119 +1,765 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Phoenix SMP | Minecraft Server</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rajdhani:wght@500;600;700;800&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
-
-<style>
-
-/* =========================================================
-   VARIABLES
-========================================================= */
-
-:root{
-    --bg:#02030a;
-    --cyan:#37f0d8;
-    --blue:#638cff;
-    --purple:#ff4fd0;
-    --gold:#ffd166;
-
-    --text:#f5f7ff;
-    --muted:#9ca5ca;
-
-    /* ULTRA LIQUID GLASS */
-    --glass:rgba(255,255,255,.025);
-    --glass-hover:rgba(255,255,255,.055);
-
-    --glass-border:rgba(255,255,255,.16);
-    --glass-highlight:rgba(255,255,255,.28);
-
-    --shadow:
-        0 25px 80px rgba(0,0,0,.45),
-        inset 0 1px 1px rgba(255,255,255,.16),
-        inset 0 -1px 1px rgba(255,255,255,.04);
-}
-
-
-/* =========================================================
-   RESET
-========================================================= */
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-html{
-    scroll-behavior:smooth;
-}
-
-body{
-
-    background:#02030a;
-
-    color:var(--text);
-
-    font-family:'Sora',sans-serif;
-
-    overflow-x:hidden;
-
-}
-
-
-/* =========================================================
-   ANIMATED BACKGROUND
-========================================================= */
-
-.bg{
-
-    position:fixed;
-
-    inset:-15%;
-
-    z-index:-10;
-
-    background:
-
-        radial-gradient(
-            circle at 15% 15%,
-            rgba(255,79,208,.32),
-            transparent 30%
-        ),
-
-        radial-gradient(
-            circle at 85% 15%,
-            rgba(55,240,216,.28),
-            transparent 30%
-        ),
-
-        radial-gradient(
-            circle at 50% 85%,
-            rgba(99,140,255,.25),
-            transparent 35%
-        ),
-
-        radial-gradient(
-            circle at 30% 60%,
-            rgba(130,70,255,.15),
-            transparent 30%
-        ),
-
-        linear-gradient(
-            135deg,
-            #02030a,
-            #080b1d,
-            #030612
-        );
-
-    animation:
-
-        backgroundMove
-        18s
-        ease-in-out
-        infinite;
-
-}
-
-
-@keyframes backgroundMove{
-
-    0%,100%{
-
-        transform:
-            scale(1)
-            translate(0,0);
-
-    }
-
-    25%{
-
-        transform:
-            scale(1.08)
-            translate(-2%,2%);
-
-    }
-
-    50%{
-
-        transform:
-            scale(1.04)
-            translate(2%,-2%);
-
-    }
-
-    75%{
-
-        transform:
-            scale(1.1)
-            translate(-1%,-1%);
-
-    }
-
-}
-
-
-/* =========================================================
-   AURORA
-========================================================= */
-
-.aurora{
-
-    position:fixed;
-
-    inset:0;
-
-    z-index:-9;
-
-    pointer-events:none;
-
-    background:
-
-        linear-gradient(
-            120deg,
-            transparent 20%,
-            rgba(55,240,216,.05),
-            transparent 45%,
-            rgba(255,79,208,.05),
-            transparent 70%
-        );
-
-    background-size:300% 300%;
-
-    animation:
-        aurora 15s ease infinite;
-
-}
-
-
-@keyframes aurora{
-
-    0%{
-
-        background-position:0% 50%;
-
-    }
-
-    50%{
-
-        background-position:100% 50%;
-
-    }
-
-    100%{
-
-        background-position:0% 50%;
-
-    }
-
-}
-
-
-/* =========================================================
-   GRID
-========================================================= */
-
-.grid{
-
-    position:fixed;
-
-    inset:0;
-
-    z-index:-8;
-
-    pointer-events:none;
-
-    background-image:
-
-        linear-gradient(
-            rgba(99,140,255,.035) 1px,
-            transparent 1px
-        ),
-
-        linear-gradient(
-            90deg,
-            rgba(99,140,255,.035) 1px,
-            transparent 1px
-        );
-
-    background-size:45px 45px;
-
-    mask-image:
-
-        radial-gradient(
-            ellipse 80% 70% at 50% 30%,
-            black 25%,
-            transparent 100%
-        );
-
-}
-
-
-/* =========================================================
-   PARTICLES
-========================================================= */
-
-#particles{
-
-    position:fixed;
-
-    inset:0;
-
-    width:100%;
-
-    height:100%;
-
-    pointer-events:none;
-
-    z-index:-5;
-
-}
-
-
-/* =========================================================
-   NAV
-========================================================= */
-
-nav{
-
-    position:relative;
-
-    z-index:20;
-
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-    margin:20px auto;
-
-    width:calc(100% - 50px);
-
-    max-width:1250px;
-
-    padding:15px 22px;
-
-    border-radius:22px;
-
-    background:
-
-        linear-gradient(
-            135deg,
-            rgba(255,255,255,.055),
-            rgba(255,255,255,.012)
-        );
-
-    border:
-
-        1px solid
-        rgba(255,255,255,.13);
-
-    backdrop-filter:
-
-        blur(35px)
-        saturate(160%);
-
-    -webkit-backdrop-filter:
-
-        blur(35px)
-        saturate(160%);
-
-    box-shadow:var(--shadow);
-
-}
-
-
-.logo{
-
-    font-family:'Press Start 2P';
-
-    font-size:13px;
-
-    color:var(--cyan);
-
-    text-shadow:
-
-        0 0 15px
-        rgba(55,240,216,.7);
-
-}
-
-
-.nav-links{
-
-    display:flex;
-
-    gap:25px;
-
-    list-style:none;
-
-}
-
-
-.nav-links a{
-
-    color:var(--muted);
-
-    text-decoration:none;
-
-    font-family:'Rajdhani';
-
-    font-weight:800;
-
-    transition:.25s;
-
-}
-
-
-.nav-links a:hover{
-
-    color:white;
-
-    text-shadow:
-        0 0 12px
-        rgba(55,240,216,.7);
-
-}
-
-
-/* =========================================================
-   HERO
-========================================================= */
-
-.hero{
-
-    min-height:90vh;
-
-    display:flex;
-
-    flex-direction:column;
-
-    align-items:center;
-
-    justify-content:center;
-
-    text-align:center;
-
-    padding:80px 6vw;
-
-}
-
-
-.eyebrow{
-
-    color:var(--purple);
-
-    font-family:'Rajdhani';
-
-    font-weight:800;
-
-    letter-spacing:5px;
-
-    margin-bottom:25px;
-
-    animation:
-        fade .8s ease forwards;
-
-}
-
-
-.title{
-
-    font-family:'Press Start 2P';
-
-    font-size:
-        clamp(
-            30px,
-            7vw,
-            72px
-        );
-
-    line-height:1.4;
-
-    animation:
-
-        titleGlow
-        4s
-        ease-in-out
-        infinite;
-
-}
-
-
-.title span{
-
-    color:var(--cyan);
-
-}
-
-
-@keyframes titleGlow{
-
-    0%,100%{
-
-        text-shadow:
-
-            0 0 20px
-            rgba(55,240,216,.45),
-
-            0 0 60px
-            rgba(255,79,208,.18);
-
-    }
-
-    50%{
-
-        text-shadow:
-
-            0 0 35px
-            rgba(55,240,216,.95),
-
-            0 0 90px
-            rgba(255,79,208,.5);
-
-    }
-
-}
-
-
-.subtitle{
-
-    font-family:'Rajdhani';
-
-    font-size:
-        clamp(
-            22px,
-            4vw,
-            34px
-        );
-
-    font-weight:800;
-
-    margin-top:25px;
-
-}
-
-
-.subtitle span{
-
-    color:var(--gold);
-
-}
-
-
-.hero-desc{
-
-    max-width:700px;
-
-    color:var(--muted);
-
-    line-height:1.8;
-
-    margin-top:20px;
-
-}
-
-
-.buttons{
-
-    display:flex;
-
-    gap:15px;
-
-    margin-top:35px;
-
-    flex-wrap:wrap;
-
-    justify-content:center;
-
-}
-
-
-.btn{
-
-    padding:14px 27px;
-
-    border-radius:15px;
-
-    text-decoration:none;
-
-    font-family:'Rajdhani';
-
-    font-weight:800;
-
-    transition:.3s;
-
-}
-
-
-.primary{
-
-    background:
-
-        linear-gradient(
-            135deg,
-            rgba(55,240,216,.85),
-            rgba(18,169,149,.75)
-        );
-
-    color:#00100d;
-
-    box-shadow:
-
-        0 10px 35px
-        rgba(55,240,216,.25);
-
-}
-
-
-.secondary{
-
-    background:
-
-        rgba(255,255,255,.025);
-
-    border:
-
-        1px solid
-        rgba(255,255,255,.18);
-
-    color:white;
-
-    backdrop-filter:blur(20px);
-
-}
-
-
-.btn:hover{
-
-    transform:
-        translateY(-5px)
-        scale(1.02);
-
-}
-
-
-/* =========================================================
-   SECTIONS
-========================================================= */
-
-section{
-
-    position:relative;
-
-    z-index:2;
-
-}
-
-
-.section{
-
-    width:100%;
-
-    max-width:1150px;
-
-    margin:auto;
-
-    padding:
-        120px
-        6vw;
-
-}
-
-
-.section-label{
-
-    font-family:'Press Start 2P';
-
-    font-size:11px;
-
-    color:var(--purple);
-
-    margin-bottom:15px;
-
-}
-
-
-.section-title{
-
-    font-family:'Rajdhani';
-
-    font-size:
-        clamp(
-            38px,
-            5vw,
-            55px
-        );
-
-    font-weight:800;
-
-    margin-bottom:40px;
-
-}
-
-
-/* =========================================================
-   LIQUID GLASS CARD
-========================================================= */
-
-.card{
-
-    position:relative;
-
-    overflow:hidden;
-
-    padding:42px;
-
-    border-radius:30px;
-
-    background:
-
-        linear-gradient(
-            135deg,
-            rgba(255,255,255,.045),
-            rgba(255,255,255,.008)
-        );
-
-    border:
-
-        1px solid
-        rgba(255,255,255,.17);
-
-    backdrop-filter:
-
-        blur(45px)
-        saturate(180%);
-
-    -webkit-backdrop-filter:
-
-        blur(45px)
-        saturate(180%);
-
-    box-shadow:
-
-        0 30px 100px
-        rgba(0,0,0,.45),
-
-        inset 0 1px 1px
-        rgba(255,255,255,.25),
-
-        inset 0 -1px 1px
-        rgba(255,255,255,.04);
-
-    transition:
-
-        transform .4s ease,
-        border .4s ease,
-        background .4s ease;
-
-}
-
-
-.card::before{
-
-    content:"";
-
-    position:absolute;
-
-    inset:0;
-
-    pointer-events:none;
-
-    background:
-
-        linear-gradient(
-            120deg,
-            rgba(255,255,255,.16),
-            transparent 18%,
-            transparent 70%,
-            rgba(55,240,216,.04)
-        );
-
-    opacity:.6;
-
-}
-
-
-.card::after{
-
-    content:"";
-
-    position:absolute;
-
-    width:250px;
-
-    height:250px;
-
-    top:-140px;
-
-    left:-100px;
-
-    background:
-
-        radial-gradient(
-            circle,
-            rgba(255,255,255,.16),
-            transparent 70%
-        );
-
-    filter:blur(25px);
-
-    pointer-events:none;
-
-}
-
-
-.card:hover{
-
-    transform:
-        translateY(-5px);
-
-    border-color:
-
-        rgba(255,255,255,.3);
-
-    background:
-
-        rgba(255,255,255,.045);
-
-}
-
-
-.card p{
-
-    position:relative;
-
-    z-index:2;
-
-    line-height:1.9;
-
-    color:#edf1ff;
-
-    margin-bottom:17px;
-
-}
-
-
-.highlight{
-
-    color:var(--cyan);
-
-    font-weight:800;
-
-}
-
-
-/* =========================================================
-   LINKS
-========================================================= */
-
-.links{
-
-    position:relative;
-
-    z-index:3;
-
-    display:flex;
-
-    flex-wrap:wrap;
-
-    gap:14px;
-
-    margin-top:28px;
-
-}
-
-
-.link{
-
-    padding:12px 20px;
-
-    border-radius:14px;
-
-    color:white;
-
-    text-decoration:none;
-
-    background:
-
-        rgba(255,255,255,.025);
-
-    border:
-
-        1px solid
-        rgba(255,255,255,.14);
-
-    backdrop-filter:
-
-        blur(25px);
-
-    transition:.3s;
-
-}
-
-
-.link:hover{
-
-    transform:
-        translateY(-4px);
-
-    border-color:
-
-        rgba(55,240,216,.6);
-
-    box-shadow:
-
-        0 10px 35px
-        rgba(55,240,216,.12);
-
-}
-
-
-/* =========================================================
-   GAMING / TEAM GRID
-========================================================= */
-
-.team-grid{
-
-    display:grid;
-
-    grid-template-columns:
-        repeat(
-            auto-fit,
-            minmax(220px,1fr)
-        );
-
-    gap:20px;
-
-}
-
-
-/* =========================================================
-   TEAM CARD GLASS
-========================================================= */
-
-.team-card{
-
-    position:relative;
-
-    overflow:hidden;
-
-    text-align:center;
-
-    padding:30px 20px;
-
-    min-height:155px;
-
-    border-radius:25px;
-
-    background:
-
-        linear-gradient(
-            135deg,
-            rgba(255,255,255,.045),
-            rgba(255,255,255,.008)
-        );
-
-    border:
-
-        1px solid
-        rgba(255,255,255,.14);
-
-    backdrop-filter:
-
-        blur(35px)
-        saturate(170%);
-
-    -webkit-backdrop-filter:
-
-        blur(35px)
-        saturate(170%);
-
-    box-shadow:
-
-        0 20px 60px
-        rgba(0,0,0,.35),
-
-        inset 0 1px
-        rgba(255,255,255,.18);
-
-    transition:
-
-        transform .35s ease,
-        border-color .35s ease;
-
-}
-
-
-.team-card::before{
-
-    content:"";
-
-    position:absolute;
-
-    inset:-1px;
-
-    background:
-
-        linear-gradient(
-            120deg,
-            transparent 20%,
-            rgba(255,255,255,.13),
-            transparent 45%
-        );
-
-    transform:
-        translateX(-120%);
-
-    transition:
-        transform .7s ease;
-
-}
-
-
-.team-card:hover::before{
-
-    transform:
-        translateX(120%);
-
-}
-
-
-.team-card:hover{
-
-    transform:
-        translateY(-8px)
-        scale(1.015);
-
-    border-color:
-
-        rgba(255,255,255,.3);
-
-}
-
-
-.team-icon{
-
-    font-size:34px;
-
-    margin-bottom:15px;
-
-    filter:
-
-        drop-shadow(
-            0 0 10px
-            rgba(255,255,255,.25)
-        );
-
-}
-
-
-.team-role{
-
-    font-family:'Rajdhani';
-
-    font-weight:800;
-
-    letter-spacing:2px;
-
-    font-size:14px;
-
-    margin-bottom:10px;
-
-}
-
-
-.team-name{
-
-    font-size:18px;
-
-    font-weight:800;
-
-}
-
-
-/* ROLE COLORS */
-
-.owner .team-role{
-    color:#ffd166;
-}
-
-.coowner .team-role{
-    color:#b98cff;
-}
-
-.hlmanager .team-role{
-    color:#37f0d8;
-}
-
-.manager .team-role{
-    color:#63a4ff;
-}
-
-.developer .team-role{
-    color:#ff4fd0;
-}
-
-.hladmin .team-role{
-    color:#ff6363;
-}
-
-.admin .team-role{
-    color:#ff9863;
-}
-
-.builder .team-role{
-    color:#ffd166;
-}
-
-.helper .team-role{
-    color:#6fa8ff;
-}
-
-
-/* =========================================================
-   SERVER
-========================================================= */
-
-.server{
-
-    margin-top:20px;
-
-}
-
-
-.server-ip{
-
-    position:relative;
-
-    z-index:3;
-
-    font-family:'Press Start 2P';
-
-    color:var(--cyan);
-
-    font-size:15px;
-
-    margin:25px 0;
-
-    padding:20px;
-
-    border-radius:17px;
-
-    background:
-
-        rgba(55,240,216,.025);
-
-    border:
-
-        1px solid
-        rgba(55,240,216,.18);
-
-    box-shadow:
-
-        inset 0 0 25px
-        rgba(55,240,216,.025);
-
-    word-break:break-all;
-
-}
-
-
-/* =========================================================
-   FOOTER
-========================================================= */
-
-footer{
-
-    text-align:center;
-
-    padding:40px 20px;
-
-    border-top:
-
-        1px solid
-        rgba(255,255,255,.1);
-
-    color:var(--muted);
-
-}
-
-
-footer span{
-
-    color:var(--cyan);
-
-}
-
-
-/* =========================================================
-   ANIMATION
-========================================================= */
-
-@keyframes fade{
-
-    from{
-
-        opacity:0;
-
-        transform:
-            translateY(20px);
-
-    }
-
-    to{
-
-        opacity:1;
-
-        transform:
-            translateY(0);
-
-    }
-
-}
-
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
-@media(max-width:700px){
-
-    nav{
-
-        width:
-            calc(100% - 20px);
-
-        padding:14px 17px;
-
-        border-radius:18px;
-
-    }
-
-    .nav-links{
-
-        display:none;
-
-    }
-
-    .section{
-
-        padding:
-            90px 20px;
-
-    }
-
-    .card{
-
-        padding:27px;
-
-        border-radius:24px;
-
-    }
-
-    .team-grid{
-
-        grid-template-columns:
-            repeat(
-                2,
-                minmax(0,1fr)
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Itz_St0rmX | Minecraft & Geometry Dash</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background:
+                radial-gradient(circle at 20% 20%, rgba(0, 180, 255, 0.15), transparent 30%),
+                radial-gradient(circle at 80% 30%, rgba(140, 0, 255, 0.15), transparent 30%),
+                #02030a;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        /* PARTICLES */
+
+        #particles {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: #00eaff;
+            border-radius: 50%;
+            box-shadow: 0 0 12px #00eaff;
+            opacity: 0.7;
+            animation: float 8s infinite linear;
+        }
+
+        @keyframes float {
+            from {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+
+            20% {
+                opacity: 0.8;
+            }
+
+            80% {
+                opacity: 0.8;
+            }
+
+            to {
+                transform: translateY(-10vh);
+                opacity: 0;
+            }
+        }
+
+        /* NAVBAR */
+
+        nav {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: min(1100px, 92%);
+            padding: 15px 25px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            background: rgba(10, 12, 25, 0.55);
+            backdrop-filter: blur(20px);
+
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+
+            box-shadow:
+                0 10px 40px rgba(0, 0, 0, 0.4),
+                inset 0 1px rgba(255, 255, 255, 0.08);
+
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 800;
+            background: linear-gradient(90deg, #00eaff, #7b2cff);
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        nav a {
+            color: #bbb;
+            text-decoration: none;
+            margin-left: 22px;
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            color: #00eaff;
+        }
+
+        /* HERO */
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 140px 20px 80px;
+        }
+
+        .hero-content {
+            max-width: 950px;
+        }
+
+        .hero h1 {
+            font-size: clamp(55px, 10vw, 120px);
+            font-weight: 900;
+            letter-spacing: -5px;
+
+            background: linear-gradient(
+                90deg,
+                #00eaff,
+                #ffffff,
+                #7b2cff
             );
 
-    }
+            -webkit-background-clip: text;
+            color: transparent;
 
-    .team-card{
+            text-shadow: 0 0 50px rgba(0, 234, 255, 0.2);
+        }
 
-        padding:23px 10px;
+        .hero h2 {
+            margin-top: 10px;
+            font-size: clamp(20px, 3vw, 32px);
+            color: #00eaff;
+        }
 
-    }
+        .hero p {
+            margin: 25px auto;
+            max-width: 650px;
+            color: #aaa;
+            font-size: 18px;
+            line-height: 1.7;
+        }
 
-    .team-name{
+        /* BUTTONS */
 
-        font-size:15px;
+        .buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 30px;
+        }
 
-        word-break:break-word;
+        .btn {
+            display: inline-block;
+            padding: 14px 25px;
+            border-radius: 14px;
 
-    }
+            text-decoration: none;
+            color: white;
+            font-weight: 700;
 
-}
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
 
+            backdrop-filter: blur(15px);
 
-/* =========================================================
-   REDUCED MOTION
-========================================================= */
+            transition: 0.3s;
+        }
 
-@media(
-    prefers-reduced-motion:reduce
-){
+        .btn:hover {
+            transform: translateY(-4px);
+            border-color: #00eaff;
+            box-shadow: 0 0 25px rgba(0, 234, 255, 0.25);
+        }
 
-    *,
-    *::before,
-    *::after{
+        .btn.primary {
+            background: linear-gradient(
+                135deg,
+                #00c8ff,
+                #006eff
+            );
+            border: none;
+            box-shadow: 0 0 25px rgba(0, 170, 255, 0.3);
+        }
 
-        animation-duration:.01ms
-        !important;
+        .btn.discord {
+            background: linear-gradient(
+                135deg,
+                #5865F2,
+                #7b2cff
+            );
+            border: none;
+            box-shadow: 0 0 25px rgba(88, 101, 242, 0.3);
+        }
 
-        animation-iteration-count:1
-        !important;
+        /* SECTIONS */
 
-        transition-duration:.01ms
-        !important;
+        section {
+            width: min(1100px, 92%);
+            margin: auto;
+            padding: 100px 0;
+        }
 
-    }
+        .section-title {
+            font-size: 42px;
+            margin-bottom: 45px;
 
-}
+            background: linear-gradient(
+                90deg,
+                #00eaff,
+                #7b2cff
+            );
 
-</style>
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        /* GLASS */
+
+        .glass {
+            background: rgba(255, 255, 255, 0.045);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+
+            backdrop-filter: blur(25px);
+
+            border-radius: 28px;
+
+            box-shadow:
+                0 20px 60px rgba(0, 0, 0, 0.35),
+                inset 0 1px rgba(255, 255, 255, 0.06);
+        }
+
+        /* MINECRAFT */
+
+        .minecraft-grid {
+            display: grid;
+            grid-template-columns: 330px 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .skin-card {
+            padding: 30px;
+            text-align: center;
+        }
+
+        .skin-card img {
+            width: 100%;
+            max-width: 260px;
+            filter: drop-shadow(0 0 30px rgba(0, 234, 255, 0.3));
+        }
+
+        .skin-card h3 {
+            font-size: 26px;
+            margin-top: 10px;
+        }
+
+        .minecraft-info {
+            padding: 40px;
+        }
+
+        .minecraft-info h3 {
+            font-size: 35px;
+            margin-bottom: 15px;
+        }
+
+        .minecraft-info p {
+            color: #aaa;
+            line-height: 1.7;
+            margin-bottom: 25px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .stat {
+            padding: 20px;
+            text-align: center;
+            border-radius: 18px;
+            background: rgba(0, 0, 0, 0.25);
+        }
+
+        .stat strong {
+            display: block;
+            font-size: 25px;
+            color: #00eaff;
+        }
+
+        .stat span {
+            color: #888;
+            font-size: 13px;
+        }
+
+        /* GD */
+
+        .gd-card {
+            padding: 50px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gd-card::before {
+            content: "";
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: #7b2cff;
+            filter: blur(150px);
+            opacity: 0.2;
+            right: -100px;
+            top: -100px;
+        }
+
+        .gd-card h3 {
+            font-size: 45px;
+            position: relative;
+        }
+
+        .gd-card .username {
+            color: #00eaff;
+            font-size: 24px;
+            margin: 10px 0 20px;
+        }
+
+        .gd-card p {
+            color: #aaa;
+            line-height: 1.7;
+            max-width: 700px;
+        }
+
+        /* GAME CARDS */
+
+        .games {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+        }
+
+        .game {
+            padding: 35px;
+            transition: 0.3s;
+        }
+
+        .game:hover {
+            transform: translateY(-8px);
+            border-color: rgba(0, 234, 255, 0.4);
+        }
+
+        .game h3 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .game p {
+            color: #999;
+            line-height: 1.6;
+        }
+
+        /* CONTACT */
+
+        .contact {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .contact h2 {
+            font-size: 42px;
+            margin-bottom: 15px;
+        }
+
+        .contact p {
+            color: #999;
+            margin-bottom: 30px;
+        }
+
+        /* FOOTER */
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #555;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 800px) {
+
+            nav {
+                padding: 13px 17px;
+            }
+
+            nav .links {
+                display: none;
+            }
+
+            .minecraft-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .games {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                letter-spacing: -3px;
+            }
+
+            .gd-card {
+                padding: 30px;
+            }
+
+            section {
+                padding: 70px 0;
+            }
+        }
+    </style>
 </head>
-
 
 <body>
 
+<div id="particles"></div>
 
-<div class="bg"></div>
-
-<div class="aurora"></div>
-
-<div class="grid"></div>
-
-<canvas id="particles"></canvas>
-
-
-<!-- =====================================================
-     NAVIGATION
-===================================================== -->
+<!-- NAV -->
 
 <nav>
+    <div class="logo">ITZ_ST0RMX</div>
 
-<div class="logo">
-PHOENIX SMP
-</div>
-
-<ul class="nav-links">
-
-<li>
-<a href="#about">
-O serveru
-</a>
-</li>
-
-<li>
-<a href="#features">
-Funkce
-</a>
-</li>
-
-<li>
-<a href="#server">
-Server
-</a>
-</li>
-
-<li>
-<a href="#team">
-Tým
-</a>
-</li>
-
-<li>
-<a href="#contact">
-Kontakt
-</a>
-</li>
-
-</ul>
-
+    <div class="links">
+        <a href="#minecraft">Minecraft</a>
+        <a href="#geometrydash">Geometry Dash</a>
+        <a href="#games">Games</a>
+        <a href="#contact">Contact</a>
+    </div>
 </nav>
 
 
-<!-- =====================================================
-     HERO
-===================================================== -->
+<!-- HERO -->
 
-<section class="hero">
+<header class="hero">
 
-<div class="eyebrow">
-PVP • SMP • ECONOMY • PVP
-</div>
+    <div class="hero-content">
 
+        <h1>ITZ_ST0RMX</h1>
 
-<h1 class="title">
+        <h2>Minecraft Player & Geometry Dash Player</h2>
 
-PHOENIX <span>SMP</span>
+        <p>
+            Gaming profile of <strong>Itz_St0rmX</strong>.
+            Minecraft player, Geometry Dash player and gaming enthusiast.
+            Minecraft is my main game, while Geometry Dash is where I push my skills.
+        </p>
 
-</h1>
+        <div class="buttons">
 
+            <a
+                class="btn primary"
+                href="#minecraft"
+            >
+                ⛏️ Minecraft Profile
+            </a>
 
-<p class="subtitle">
+            <a
+                class="btn"
+                href="#geometrydash"
+            >
+                🎮 Geometry Dash
+            </a>
 
-Professional
-<span>Geometry Dash</span>
-Player
+            <a
+                class="btn discord"
+                href="https://discord.gg/wy9TxpWUe9"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                💬 Pripojiť sa na Discord
+            </a>
 
-</p>
+        </div>
 
+    </div>
 
-<p class="hero-desc">
-
-Phoenix SMP je moderní CZ/SK Minecraft server
-zaměřený na <strong>Survival, ekonomiku, PvP</strong>
-a komunitu. Připoj se a začni tvořit svůj vlastní příběh.
-
-</p>
-
-
-<div class="buttons">
-
-<a
-href="https://discord.gg/k39rkyK9rY"
-target="_blank"
-rel="noopener"
-class="btn primary">
-
-Discord
-
-</a>
-
-
-<a
-href="https://youtube.com/@itz_st0rmx199"
-target="_blank"
-rel="noopener"
-class="btn secondary">
-
-YouTube
-
-</a>
-
-</div>
-
-</section>
+</header>
 
 
-<!-- =====================================================
-     ABOUT
-===================================================== -->
+<!-- MINECRAFT -->
 
-<section
-class="section"
-id="about"
->
+<section id="minecraft">
 
-<div class="section-label">
-// 01 O SERVERU
-</div>
+    <h2 class="section-title">⛏️ Minecraft</h2>
 
+    <div class="minecraft-grid">
 
-<h2 class="section-title">
-O Phoenix SMP
-</h2>
+        <div class="skin-card glass">
 
+            <img
+                src="https://mc-heads.net/body/Itz_St0rmX/300"
+                alt="Minecraft skin of Itz_St0rmX"
+            >
 
-<div class="card">
+            <h3>Itz_St0rmX</h3>
 
-<p>
+            <p style="color:#777;">
+                Minecraft Username
+            </p>
 
-<strong class="highlight">Phoenix SMP</strong>
-je komunitní Minecraft server pro hráče z Česka a Slovenska.
-
-</p>
+        </div>
 
 
-<p>
+        <div class="minecraft-info glass">
 
-Na serveru najdeš <strong class="highlight">Survival, ekonomiku,
-obchody, aukce a PvP</strong> s prostorem pro vlastní projekty.
+            <h3>My Minecraft Profile</h3>
 
-</p>
+            <p>
+                Minecraft is my main game. I play survival, multiplayer,
+                servers and different Minecraft projects.
+            </p>
 
+            <div class="buttons" style="justify-content:flex-start;">
 
-<p>
+                <a
+                    class="btn primary"
+                    href="https://namemc.com/search?q=Itz_St0rmX"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    🌐 Pozrieť celý profil
+                </a>
 
-Phoenix SMP je stavěný tak, aby měl aktivní komunitu,
-férovou ekonomiku a dlouhodobý prostor pro hráče.
+            </div>
 
-</p>
+            <div class="stats">
 
+                <div class="stat">
+                    <strong>Itz_St0rmX</strong>
+                    <span>Username</span>
+                </div>
 
-<div class="links">
+                <div class="stat">
+                    <strong>Minecraft</strong>
+                    <span>Main Game</span>
+                </div>
 
-<a
-class="link"
-href="https://www.youtube.com/@itz_st0rmx199"
-target="_blank"
-rel="noopener">
+                <div class="stat">
+                    <strong>Online</strong>
+                    <span>Multiplayer</span>
+                </div>
 
-▶ YouTube
+            </div>
 
-</a>
+        </div>
 
-
-<a
-class="link"
-href="https://discord.gg/JHN3JJv8DP"
-target="_blank"
-rel="noopener">
-
-◆ Discord
-
-</a>
-
-
-<a
-class="link"
-href="https://sk.namemc.com/skin/0d542c4f92e65a24"
-target="_blank"
-rel="noopener">
-
-◆ Připojit se
-
-</a>
-
-</div>
-
-</div>
+    </div>
 
 </section>
 
 
-<!-- =====================================================
-     GAMING
-===================================================== -->
+<!-- GEOMETRY DASH -->
 
-<section
-class="section"
-id="features"
->
+<section id="geometrydash">
 
-<div class="section-label">
-// 02 FUNKCE SERVERU
-</div>
+    <h2 class="section-title">🎮 Geometry Dash</h2>
 
+    <div class="gd-card glass">
 
-<h2 class="section-title">
-Co Phoenix SMP nabízí
-</h2>
+        <h3>Zyr0x</h3>
 
+        <div class="username">
+            Geometry Dash Player
+        </div>
 
-<div class="team-grid">
+        <p>
+            Geometry Dash account <strong>Zyr0x</strong>.
+            I have completed more than 100 demons and focus mainly
+            on challenging Extreme Demon levels.
+        </p>
 
+        <div class="stats">
 
-<div class="team-card">
+            <div class="stat">
+                <strong>100+</strong>
+                <span>Demons</span>
+            </div>
 
-<div class="team-icon">
-◆
-</div>
+            <div class="stat">
+                <strong>Extreme</strong>
+                <span>Main Difficulty</span>
+            </div>
 
-<div class="team-role">
-SURVIVAL
-</div>
+            <div class="stat">
+                <strong>Zyr0x</strong>
+                <span>GD Account</span>
+            </div>
 
-<div class="team-name">
-Ekonomika
-</div>
+        </div>
 
-</div>
+        <div class="buttons" style="justify-content:flex-start; margin-top:30px;">
 
+            <a
+                class="btn"
+                href="https://www.youtube.com/results?search_query=Zyr0x+Geometry+Dash"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                ▶️ YouTube
+            </a>
 
-<div class="team-card">
+        </div>
 
-<div class="team-icon">
-◇
-</div>
-
-<div class="team-role">
-PVP
-</div>
-
-<div class="team-name">
-Komunita
-</div>
-
-</div>
-
-
-</div>
-
-
-<div class="links">
-
-
-<a
-class="link"
-href="#server">
-
-◆ Připojit se
-
-</a>
-
-
-<a
-class="link"
-href="https://sk.namemc.com/skin/0d542c4f92e65a24"
-target="_blank"
-rel="noopener">
-
-Phoenix SMP
-
-</a>
-
-
-</div>
+    </div>
 
 </section>
 
 
-<!-- =====================================================
-     SUSENKASMP
-===================================================== -->
+<!-- GAMES -->
 
-<section
-class="section"
-id="server"
->
+<section id="games">
 
-<div class="section-label">
-// 03 PVP SERVER
-</div>
+    <h2 class="section-title">🎮 Games</h2>
 
+    <div class="games">
 
-<h2 class="section-title">
-Phoenix SMP
-</h2>
+        <div class="game glass">
 
+            <h3>⛏️ Minecraft</h3>
 
-<div class="card server">
+            <p>
+                Main game. Multiplayer, survival, servers,
+                building and Minecraft projects.
+            </p>
 
-<p>
-
-<strong class="highlight">
-<strong class="highlight">
-Phoenix SMP
-</strong>
-je CZ/SK Minecraft server, na kterém společně budujeme aktivní komunitu.
-
-</p>
+        </div>
 
 
-<div class="server-ip">
+        <div class="game glass">
 
-phoenixsmp.ultramc.co
+            <h3>🔺 Geometry Dash</h3>
 
-</div>
+            <p>
+                High-difficulty gameplay, demons and
+                Extreme Demon levels.
+            </p>
 
-<p style="text-align:center; margin-bottom:0;">
-<strong class="highlight">CZ/SK • Survival • Economy • PvP</strong>
-</p>
+        </div>
 
-
-<div class="links">
-
-
-<a
-class="link"
-href="https://discord.gg/k39rkyK9rY"
-target="_blank"
-rel="noopener">
-
-◆ Discord
-
-</a>
-
-
-<a
-class="link"
-href="https://itz-st0rm-x.vercel.app/"
-target="_blank"
-rel="noopener">
-
-◇ Web
-
-</a>
-
-
-</div>
-
-</div>
+    </div>
 
 </section>
 
 
-<!-- =====================================================
-     TEAM
-===================================================== -->
-
-<section
-class="section"
-id="team"
->
-
-<div class="section-label">
-// 04 PHOENIX SMP TÝM
-</div>
-
-
-<h2 class="section-title">
-Náš tým
-</h2>
-
-
-<div class="team-grid">
-
-
-<div class="team-card owner">
-
-<div class="team-icon">♛</div>
-
-<div class="team-role">
-OWNER
-</div>
-
-<div class="team-name">
-Itz_St0rmX
-</div>
-
-</div>
-
-
-<div class="team-card coowner">
-
-<div class="team-icon">◇</div>
-
-<div class="team-role">
-CO-OWNER
-</div>
-
-<div class="team-name">
-ErikHrajeHry122
-</div>
-
-</div>
-
-
-<div class="team-card hlmanager">
-
-<div class="team-icon">✦</div>
-
-<div class="team-role">
-HL. MANAGER
-</div>
-
-<div class="team-name">
-NIKTO
-</div>
-
-</div>
-
-
-<div class="team-card manager">
-
-<div class="team-icon">✧</div>
-
-<div class="team-role">
-MANAGER
-</div>
-
-<div class="team-name">
-NIKTO
-</div>
-
-</div>
-
-
-<div class="team-card manager">
-
-<div class="team-icon">✧</div>
-
-<div class="team-role">
-MANAGER
-</div>
-
-<div class="team-name">
-cookie448
-</div>
-
-</div>
-
-
-<div class="team-card manager">
-
-<div class="team-icon">✧</div>
-
-<div class="team-role">
-MANAGER (2)
-</div>
-
-<div class="team-name">
-NIKO
-</div>
-
-</div>
-
-
-<div class="team-card developer">
-
-<div class="team-icon">⌘</div>
-
-<div class="team-role">
-DEVELOPER
-</div>
-
-<div class="team-name">
-NIKTO
-</div>
-
-</div>
-
-
-<div class="team-card developer">
-
-<div class="team-icon">⌘</div>
-
-<div class="team-role">
-DEVELOPER (2)
-</div>
-
-<div class="team-name">
-NIKTO
-</div>
-
-</div>
-
-
-<div class="team-card developer">
-
-<div class="team-icon">⌘</div>
-
-<div class="team-role">
-DEVELOPER (3)
-</div>
-
-<div class="team-name">
-NIKTO
-</div>
-
-</div>
-
-
-<div class="team-card hladmin">
-
-<div class="team-icon">◈</div>
-
-<div class="team-role">
-HL. ADMIN
-</div>
-
-<div class="team-name">
-NIKTO
-</div>
-
-</div>
-
-
-<div class="team-card admin">
-
-<div class="team-icon">⬢</div>
-
-<div class="team-role">
-ADMIN
-</div>
-
-<div class="team-name">
-NIKTO
-</div>
-
-</div>
-
-
-<div class="team-card builder">
-
-<div class="team-icon">▣</div>
-
-<div class="team-role">
-BUILDER
-</div>
-
-<div class="team-name">
-Banan87477
-</div>
-
-</div>
-
-
-<div class="team-card helper">
-
-<div class="team-icon">✦</div>
-
-<div class="team-role">
-HELPER
-</div>
-
-<div class="team-name">
-NIKTO
-</div>
-
-</div>
-
-
-</div>
+<!-- CONTACT -->
+
+<section id="contact">
+
+    <div class="contact glass">
+
+        <h2>🌐 My Profiles</h2>
+
+        <p>
+            Find me online and join my community.
+        </p>
+
+        <div class="buttons">
+
+            <a
+                class="btn discord"
+                href="https://discord.gg/wy9TxpWUe9"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                💬 Discord
+            </a>
+
+            <a
+                class="btn"
+                href="https://namemc.com/search?q=Itz_St0rmX"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                ⛏️ NameMC
+            </a>
+
+            <a
+                class="btn"
+                href="https://www.youtube.com/results?search_query=Zyr0x+Geometry+Dash"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                ▶️ YouTube
+            </a>
+
+        </div>
+
+    </div>
 
 </section>
 
 
-<!-- =====================================================
-     CONTACT
-===================================================== -->
-
-<section
-class="section"
-id="contact"
->
-
-<div class="section-label">
-// 05 KONTAKT
-</div>
-
-
-<h2 class="section-title">
-Kontakt
-</h2>
-
-
-<div class="card">
-
-<p>
-
-Chceš se připojit k Phoenix SMP nebo kontaktovat náš tým?
-
-</p>
-
-
-<div class="links">
-
-<a
-class="link"
-href="https://discord.gg/k39rkyK9rY"
-target="_blank"
-rel="noopener">
-
-◆ Discord
-
-</a>
-
-
-<a
-class="link"
-href="https://youtube.com/@itz_st0rmx199"
-target="_blank"
-rel="noopener">
-
-▶ YouTube
-
-</a>
-
-</div>
-
-</div>
-
-</section>
-
+<!-- FOOTER -->
 
 <footer>
 
-ITZ
-<span>ST0RMX</span>
-© All rights reserved 2026
-
-<br><br>
-
-Phoenix SMP   
+    © 2026 Itz_St0rmX · Minecraft & Geometry Dash
 
 </footer>
 
 
-<!-- =====================================================
-     PARTICLE ENGINE
-===================================================== -->
+<!-- PARTICLES SCRIPT -->
 
 <script>
 
-const canvas =
-document.getElementById(
-    "particles"
-);
+    const container = document.getElementById("particles");
 
-const ctx =
-canvas.getContext("2d");
+    for (let i = 0; i < 70; i++) {
 
-let particles = [];
+        const particle = document.createElement("div");
 
+        particle.classList.add("particle");
 
-function resize(){
+        particle.style.left = Math.random() * 100 + "%";
 
-    canvas.width =
-        window.innerWidth;
+        particle.style.animationDuration =
+            (5 + Math.random() * 8) + "s";
 
-    canvas.height =
-        window.innerHeight;
+        particle.style.animationDelay =
+            (Math.random() * 8) + "s";
 
-}
+        particle.style.opacity =
+            Math.random();
 
-
-resize();
-
-
-window.addEventListener(
-    "resize",
-    resize
-);
-
-
-function createParticle(){
-
-    return{
-
-        x:
-            Math.random()
-            * canvas.width,
-
-        y:
-            canvas.height
-            + 20,
-
-        size:
-            Math.random()
-            * 2
-            + .5,
-
-        speed:
-            Math.random()
-            * .7
-            + .15,
-
-        drift:
-            (Math.random()-.5)
-            * .45,
-
-        alpha:
-            Math.random()
-            * .65
-            + .15,
-
-        hue:
-            Math.random()
-
-    };
-
-}
-
-
-for(
-    let i=0;
-    i<100;
-    i++
-){
-
-    particles.push(
-        createParticle()
-    );
-
-}
-
-
-function animate(){
-
-    ctx.clearRect(
-        0,
-        0,
-        canvas.width,
-        canvas.height
-    );
-
-
-    particles.forEach(
-        p=>{
-
-            p.y -=
-                p.speed;
-
-            p.x +=
-                p.drift;
-
-
-            if(
-                p.y < -20
-            ){
-
-                Object.assign(
-                    p,
-                    createParticle()
-                );
-
-            }
-
-
-            const color =
-                p.hue > .66
-                ? "#ff4fd0"
-                : p.hue > .33
-                ? "#638cff"
-                : "#37f0d8";
-
-
-            ctx.beginPath();
-
-
-            ctx.arc(
-                p.x,
-                p.y,
-                p.size,
-                0,
-                Math.PI * 2
-            );
-
-
-            ctx.fillStyle =
-                color;
-
-
-            ctx.globalAlpha =
-                p.alpha;
-
-
-            ctx.shadowBlur =
-                12;
-
-
-            ctx.shadowColor =
-                color;
-
-
-            ctx.fill();
-
-        }
-    );
-
-
-    ctx.globalAlpha = 1;
-
-
-    requestAnimationFrame(
-        animate
-    );
-
-}
-
-
-animate();
+        container.appendChild(particle);
+    }
 
 </script>
-
 
 </body>
 </html>
